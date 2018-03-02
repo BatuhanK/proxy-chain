@@ -13,21 +13,7 @@ export const ANONYMIZED_PROXY_PORTS = {
 };
 
 const _findFreePort = () => {
-    // Let 'min' be a random value in the first half of the PORT_FROM-PORT_TO range,
-    // to reduce a chance of collision if other ProxyChain is started at the same time.
-    const half = Math.floor((ANONYMIZED_PROXY_PORTS.TO - ANONYMIZED_PROXY_PORTS.FROM) / 2);
-
-    const opts = {
-        min: ANONYMIZED_PROXY_PORTS.FROM + Math.floor(Math.random() * half),
-        max: ANONYMIZED_PROXY_PORTS.TO,
-        retrieve: 1,
-    };
-
-    return portastic.find(opts)
-        .then((ports) => {
-            if (ports.length < 1) throw new Error(`There are no more free ports in range from ${ANONYMIZED_PROXY_PORTS.FROM} to ${ANONYMIZED_PROXY_PORTS.TO}`); // eslint-disable-line max-len
-            return ports[0];
-        });
+    return Promise.resolve(Math.floor(Math.random() * (ANONYMIZED_PROXY_PORTS.TO-ANONYMIZED_PROXY_PORTS.FROM)) + ANONYMIZED_PROXY_PORTS.FROM);
 };
 
 
